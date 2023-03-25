@@ -1,14 +1,31 @@
 #include "Person.h"
 #include "Mechanic.h"
 #include <iostream>
+#include <cmath>
 void Mechanic::addAppoinment (Person::Appointment app)
 {
-    *(booked + counter) = app;
-    counter++;
+    if (counter < capacity)
+    {
+        (booked + counter)->hours = app.hours;
+        (this->booked + this->counter)->mins = app.mins;
+        counter++;
+    }
+    else
+    {
+        std::cout << "array is full" << std::endl;
+        exit (1);
+    }
 }
-void Mechanic::setArraySize (int count)
+void Mechanic::setArraySize (int size)
 {
-    booked = new Person::Appointment[count];
+    capacity = size;
+    booked = new Person::Appointment[capacity];
+
+    for (int i = 0;i < size;i++)
+    {
+        booked[i].hours = -1;
+        booked[i].mins = -1;
+    }
 }
 
 int Mechanic::getCounter () const
@@ -29,15 +46,14 @@ Person::Appointment Mechanic::getAppointment (int index) const
 }
 bool Mechanic::isAvailable (Appointment a)
 {
-    for (int i = 0; i < counter;i++)
-    {
-        if ((booked + i)->hours == a.hours)
-        {
-            if ((((booked + i)->mins + a.mins) != 30))
-            {
-                return false;
-            }
+    for (int i = 0; i < counter; i++) {
+        // Calculate the time difference in minutes
+        int timeDiff = (a.hours - (booked + i)->hours) * 60 + (a.mins - (booked + i)->mins);
+        // If the time difference is within 30 minutes, the appointment is not available
+        if (abs (timeDiff) < 30) {
+            return false;
         }
     }
+    // If no conflicting appointment is found, the appointment is available
     return true;
 }
