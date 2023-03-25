@@ -9,6 +9,11 @@ void Customer::setMechanicID (int num)
 }
 void Customer::setAppointment (Appointment app)
 {
+    if(app.hours<0||app.hours>24||app.mins<0||app.mins>59)
+    {
+        cout<<"invalid time"<<endl;
+        exit(1);
+    }
     appointment = app;
 }
 int Customer::getMechanicID () const
@@ -17,7 +22,7 @@ int Customer::getMechanicID () const
 }
 Person::Appointment Customer::getAppointment () const
 {
-    return appointment;
+    return this->appointment;
 }
 bool Customer::operator <(const Customer& customer)
 {

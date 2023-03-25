@@ -4,8 +4,8 @@
 class Customer:public Person
 {
 private:
-    int MechanicID=-1;
-    Appointment appointment;
+    int MechanicID = -1;//the ID of the mecahanic that the customer was assigned to initialized to -1 to indicate that the customer has no mechanic
+    Appointment appointment;//stores the appointment of the customer
 public:
     Customer () {};
     void setMechanicID (int); //setter for member variable MechanicID
